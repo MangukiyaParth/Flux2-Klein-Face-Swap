@@ -1,0 +1,7 @@
+git+https://github.com/huggingface/diffusers.git
+
+peft
+transformers
+Pillow
+numpy
+peft
