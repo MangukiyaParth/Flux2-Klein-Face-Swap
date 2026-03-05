@@ -38,8 +38,17 @@ FROM PICTURE 2 (strictly preserve identity):
 The replaced head must seamlessly match Picture 1's lighting and expression while maintaining the complete identity from Picture 2. High quality, photorealistic, sharp details, 4k."""
 
 print("Loading FLUX.2 Klein 9B Distilled model...")
-pipe = Flux2KleinPipeline.from_pretrained(REPO_ID_DISTILLED, torch_dtype=dtype)
+pipe = Flux2KleinPipeline.from_pretrained(
+    REPO_ID_DISTILLED,
+    torch_dtype=dtype,
+    cache_dir="/workspace/huggingface-cache"   # optional but recommended for RunPod
+)
 pipe.to(device)
+
+# Performance / memory optimizations
+pipe.enable_model_cpu_offload()
+pipe.enable_xformers_memory_efficient_attention()
+pipe.enable_vae_slicing()
 
 print(f"Loading LoRA from {LORA_REPO_ID}...")
 pipe.load_lora_weights(LORA_REPO_ID, weight_name=LORA_FILENAME)
@@ -283,4 +292,5 @@ Swap faces using Flux.2 Klein 9B [Alissonerdx/BFS-Best-Face-Swap](https://huggin
     )
 
 if __name__ == "__main__":
-    demo.launch(share=True, theme=gr.themes.Citrus())
+    # demo.launch(share=True, theme=gr.themes.Citrus())
+    demo.launch(server_name="0.0.0.0", server_port=7860)

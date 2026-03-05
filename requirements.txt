@@ -4,4 +4,4 @@ peft
 transformers
 Pillow
 numpy
-peft
+xformers
