@@ -43,12 +43,13 @@ pipe = Flux2KleinPipeline.from_pretrained(
     torch_dtype=dtype,
     cache_dir="/workspace/huggingface-cache"   # optional but recommended for RunPod
 )
-pipe.to(device)
 
 # Performance / memory optimizations
 pipe.enable_model_cpu_offload()
 pipe.enable_xformers_memory_efficient_attention()
-pipe.enable_vae_slicing()
+# pipe.enable_vae_slicing()
+pipe.enable_attention_slicing()
+# pipe.to(device)
 
 print(f"Loading LoRA from {LORA_REPO_ID}...")
 pipe.load_lora_weights(LORA_REPO_ID, weight_name=LORA_FILENAME)
