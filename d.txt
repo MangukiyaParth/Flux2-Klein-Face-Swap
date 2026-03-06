@@ -1,0 +1,31 @@
+rm -rf ~/.cache/huggingface
+rm -rf /workspace/*
+
+mkdir -p /workspace/huggingface-cache
+
+mkdir flux-project
+cd flux-project
+
+export HF_HOME=/workspace/huggingface-cache
+export TRANSFORMERS_CACHE=/workspace/huggingface-cache
+export HF_DATASETS_CACHE=/workspace/huggingface-cache
+
+echo 'export HF_HOME=/workspace/huggingface-cache' >> ~/.bashrc
+echo 'export TRANSFORMERS_CACHE=/workspace/huggingface-cache' >> ~/.bashrc
+echo 'export HF_DATASETS_CACHE=/workspace/huggingface-cache' >> ~/.bashrc
+source ~/.bashrc
+
+git clone https://github.com/MangukiyaParth/Flux2-Klein-Face-Swap .
+
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+
+pip3 install -r requirements.txt
+
+pip install hf-transfer
+export HF_HUB_ENABLE_HF_TRANSFER=1
+
+hf auth login
+
+python3 app.py

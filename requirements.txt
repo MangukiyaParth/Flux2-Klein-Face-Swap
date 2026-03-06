@@ -4,4 +4,6 @@ peft
 transformers
 Pillow
 numpy
+gradio
+spaces
 xformers
